@@ -1,0 +1,28 @@
+name: Python linting
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.6
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install black flake8
+    - name: Check for serious errors
+      # Checks for Python syntax errors and undefined names
+      run: |
+        flake8 --count --select=E9,F63,F7,F82 --show-source --statistics .
+    - name: Check formatting with black
+      run: |
+        black --check .
+    - name: Report linting errors with flake8
+      run: |
+        flake8 . --count --exit-zero --statistics
+        # exit-zero means that this step will not error out
