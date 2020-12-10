@@ -55,7 +55,6 @@ jobs:
       if: runner.os == 'Linux'
       run: |
         set -x
-        convert -list configure
         if convert -list configure | sed -n -e 's/CONFIGURE_PATH[[:space:]]*//p'; then
           echo yes
         else
