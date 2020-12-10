@@ -55,6 +55,11 @@ jobs:
       if: runner.os == 'Linux'
       run: |
         convert -list configure
+        if convert -list configure | sed -n -e 's/CONFIGURE_PATH[[:space:]]*//p'; then
+          echo yes
+        else
+          echo no
+        fi
         configure_path=$(convert -list configure | sed -n -e 's/CONFIGURE_PATH[[:space:]]*//p')
         echo $configure_path
         cat ${configure_path}/policy.xml
